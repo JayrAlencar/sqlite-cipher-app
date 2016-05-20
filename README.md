@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # basel-app
 Base app for https://github.com/baseljs/basel.git
 
@@ -23,3 +24,6 @@ npm start
 
 ## preview
 <img src="https://raw.githubusercontent.com/baseljs/baseljs.github.io/master/dist/img/tabs.png">
+=======
+# sqlite-cipher-app
+>>>>>>> ee61da65ea9b2aa6cf378c206f22aa6e01c6927e
