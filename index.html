@@ -17,6 +17,9 @@
 					<li ng-repeat="menu in menus">
 						<a href="#" ng-click="addTab(menu)">{{menu.name}}</a>
 					</li>
+					<li>
+						<a href="#" ng-click="addTab({active: true, view: 'editor.html', name: 'Editor'})">Editor</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -24,7 +27,6 @@
 	<!-- Onde será carregada a view -->
 	<div class="container">
 		<div>
-
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
 				<li role="presentation" ng-repeat="tab in tabs" ng-class="{active: tab.active}"><a href="#" ng-click="activeMe(tab)">{{tab.name}}<button ng-click="close(tab)" class="close">x</button></a></li>
@@ -56,6 +58,7 @@
 	<!-- Controllers -->
 	<script src="controllers/homeController.js"></script>
 	<script src="controllers/mainController.js"></script>
+	<script src="controllers/editorController.js"></script>
 
 	<!-- Angular Bootstrap -->
 	<script src="app/angular.bootstrap.js"></script>
