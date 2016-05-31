@@ -1,6 +1,7 @@
 "use strict";
 var basel = require('basel-cli');
 var app = angular.module('cdg',['angularUtils.directives.dirPagination']);
+var sql_text = require('./uses/sql-text');
 
 app.directive('contenteditable', function() {
   return {
@@ -28,6 +29,8 @@ app.directive('contenteditable', function() {
           if( attrs.stripBr && html == '<br>' ) {
             html = '';
           }
+
+          var reservedWords = sql_text.reserved;
           ngModel.$setViewValue(html);
         }
       }

@@ -14,19 +14,26 @@ app.controller("editorController", function($scope, databaseService){
 	$scope.results = [];
 
 	$scope.run = function(){
-		$scope.results = [];
-		var sql = $("<div>"+$scope.editorContent+"</div>").text();
+		if($scope.connection){
+			$scope.results = [];
+			var sql = $("<div>"+$scope.editorContent+"</div>").text();
 
-		var sqls = sql.split(';');
+			var sqls = sql.split(';');
 
 
-		for(var i in sqls){
-			if(sqls[i] && sqls[i] != ''){
-				executing(sqls[i]);	
+			for(var i in sqls){
+				if(sqls[i] && sqls[i] != ''){
+					executing(sqls[i]);	
+				}
+				
 			}
-			
+		}else{
+			dialog.showErrorBox("Error", "Please connect in a database");
 		}
+	}
 
+	$scope.modifyContent = function(){
+		console.log($scope.editorContent)
 	}
 
 	$scope.$on('newConnection', function(event, args) {
@@ -75,8 +82,8 @@ app.controller("editorController", function($scope, databaseService){
 		dialog.showSaveDialog(function (fileName) {
 			var sql = $("<div>"+$scope.editorContent+"</div>").text();
 			fs.writeFile(fileName, sql, function(err){
-				
-			})
+				dialog.showMessageBox({ message: "The file has been saved!",buttons: ["OK"],type :'info', title:"SQLite-cipher App" });
+			});
  		}); 
 	}
 });
