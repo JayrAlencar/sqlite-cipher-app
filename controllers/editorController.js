@@ -6,14 +6,18 @@ app.controller("editorController", function($scope, databaseService){
 		});
 	}
 
-	$scope.modifyContent = function(){
-		// console.log($scope.editorContent)
-	}
-
 	$scope.run = function(){
-		console.log($scope.connection)
-		$scope.connection.connection.run($scope.editorContent, function(res){
+		$scope.connection.connection.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm)
+
+		var sql = $($scope.editorContent).text();
+
+
+		$scope.connection.connection.run(sql, function(res){
 			console.log(res)
 		});
+	}
+
+	function executing(sql){
+
 	}
 });
