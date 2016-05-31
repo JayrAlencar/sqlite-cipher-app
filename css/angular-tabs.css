@@ -57,4 +57,9 @@
     height: 300px;
     padding: 10px;
     border: 1px solid black;
+    overflow: auto;
+}
+
+.margin-5{
+    margin: 5px 0 5px 0;
 }

@@ -1,8 +1,9 @@
 <div ng-controller="editorController">
-	<div class="row" ng-init="init()">
+	<div class="row margin-5" ng-init="init()">
 		<div class="col-md-4">
 			<div class="btn-group" role="group" >
-				<button type="button" class="btn btn-default" ng-click="run()"  alt="Execute query"><span class="glyphicon glyphicon-play"></span></button>
+				<button type="button" class="btn btn-default" ng-click="run()"  alt="Execute query"><span class="glyphicon glyphicon-play"></span> Run</button>
+				<button type="button" class="btn btn-default" ng-click="save()"  alt="Execute query"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
 			</div>
 		</div>
 		<div class="col-md-4">

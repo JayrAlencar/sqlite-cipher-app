@@ -1,5 +1,10 @@
 "use strict";
 app.controller("editorController", function($scope, databaseService){
+
+	var remote = require('remote'); 
+ 	var dialog = remote.require('dialog'); 
+ 	var fs = require("fs");
+
 	$scope.init = function(){
 		databaseService.getConnecteds(function(res){
 			$scope.databases = res;
@@ -64,5 +69,14 @@ app.controller("editorController", function($scope, databaseService){
 	function fields(data){
 		var row = data[0];
 		return Object.keys(row);
+	}
+
+	$scope.save = function(){
+		dialog.showSaveDialog(function (fileName) {
+			var sql = $("<div>"+$scope.editorContent+"</div>").text();
+			fs.writeFile(fileName, sql, function(err){
+				
+			})
+ 		}); 
 	}
 });
