@@ -1,1 +1,26 @@
-{"name":"sqlite-cipher-app","version":"1.0.0","description":"Base app for basel","main":"main.js","scripts":{"start":"electron main.js","win32":"electron-packager . myApp --platform=win32 --arch=ia32","win64":"electron-packager . myApp --platform=win32 --arch=x64","linux32":"electron-packager . myApp --platform=linux --arch=ia32","linux64":"electron-packager . myApp --platform=linux --arch=x64","osx":"electron-packager . myApp --platform=darwin --arch=x64","build":"electron-packager . --all"},"devDependencies":{"electron-prebuilt":"^0.36.0","electron-packager":"^6.0.0","basel-cli":"*","jquery":"^2.2.2","angular":"^1.5.1","angular-route":"^1.5.1","angular-utils-pagination":"^0.11.0"},"titel":"sqlite-cipher"}
+{
+	"name":"sqlite-cipher-app",
+	"version":"0.0.2",
+	"description":"Base app for basel",
+	"main":"main.js",
+	"scripts":{
+		"start":"electron main.js",
+		"win32":"electron-packager . myApp --platform=win32 --arch=ia32",
+		"win64":"electron-packager . myApp --platform=win32 --arch=x64",
+		"linux32":"electron-packager . myApp --platform=linux --arch=ia32",
+		"linux64":"electron-packager . myApp --platform=linux --arch=x64",
+		"osx":"electron-packager . myApp --platform=darwin --arch=x64",
+		"build":"electron-packager . --all"
+	},
+	"devDependencies":{
+		"electron-prebuilt":"^0.36.0",
+		"electron-packager":"^6.0.0",
+		"basel-cli":"*",
+		"jquery":"^2.2.2",
+		"angular":"^1.5.1",
+		"angular-route":"^1.5.1",
+		"angular-utils-pagination":"^0.11.0",
+		"sqlite-cipher":"*"
+	},
+	"titel":"sqlite-cipher"
+}
