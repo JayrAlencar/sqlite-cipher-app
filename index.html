@@ -24,7 +24,7 @@
 								<a href=""><span class="glyphicon glyphicon-asterisk"></span> New</a></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href=""><span class="glyphicon glyphicon-off"></span> Connection</a>
+										<a href="" ng-click="newConnection()"><span class="glyphicon glyphicon-off"></span> Connection</a>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
@@ -49,7 +49,9 @@
 	<!-- Onde será carregada a view -->
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				
+			</div>
 			<div class="col-md-9">
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
@@ -64,6 +66,55 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="modalConnction">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">New Connection</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<label>File:</label>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="" ng-model="connection.path">
+									<span class="input-group-btn">
+									<button class="btn btn-default" type="button" ng-click="callFileInput()">...</button>
+									</span>
+								</div><!-- /input-group -->
+								<input type="file" id="file" style="display:none"   custom-on-change="uploadFile" >
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Alias:</label>
+								<input type="text" class="form-control" ng-model="connection.alias">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Algorithm</label>
+								<select class="form-control" ng-model="connection.algorithm">
+									<option ng-repeat="algorithm in algorithms" value="{{algorithm}}">{{algorithm}}</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label>Password</label>
+								<input type="password" class="form-control" ng-model="connection.password">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" ng-click="testConnection()">{{btnTest}}</button>
+						<button type="button" class="btn btn-success" ng-click="connectSave()">Save and connect</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
 	</div>
 	<!-- jQuery -->
 	<script>window.$ = window.jQuery = require('jquery');</script>

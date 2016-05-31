@@ -14,7 +14,7 @@ app.on('window-all-closed', function() {
 
 app.on('ready', function() {
   // Cria a janela do browser.
-  mainWindow = new BrowserWindow({width: 1200, height: 700});
+  mainWindow = new BrowserWindow({width: 1400, height: 700});
 
   // Carrega o arquivo html principal.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
