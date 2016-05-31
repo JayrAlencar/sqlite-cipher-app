@@ -47,10 +47,30 @@
 		</div>
 	</nav>
 	<!-- Onde será carregada a view -->
-	<div class="container-fluid">
+	<div class="container-fluid" ng-init="getDatabases()">
 		<div class="row">
 			<div class="col-md-3">
-				
+				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default" ng-repeat="database in databases">
+						<div class="panel-heading" role="tab" id="headingOne">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{database.id}}" aria-expanded="true" aria-controls="collapseOne">
+									{{database.alias}} 
+								</a>
+								<div class="pull-right">
+									<button ng-show="!database.connected" ng-click="connect(database)" class="btn btn-primary btn-xs">Connect</button>
+								</div>
+							</h4>
+						</div>
+						<div id="collapse{{database.id}}" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
+							<div class="panel-body">
+								<ul class="list-group">
+  									<li ng-repeat="table in database.tables" class="list-group-item">{{table.name}}</li>
+  								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-9">
 				<!-- Nav tabs -->
@@ -81,7 +101,7 @@
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="" ng-model="connection.path">
 									<span class="input-group-btn">
-									<button class="btn btn-default" type="button" ng-click="callFileInput()">...</button>
+										<button class="btn btn-default" type="button" ng-click="callFileInput()">...</button>
 									</span>
 								</div><!-- /input-group -->
 								<input type="file" id="file" style="display:none"   custom-on-change="uploadFile" >

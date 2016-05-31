@@ -98,10 +98,65 @@ app.controller("mainController", function($scope, databaseService){
 				sqlite.run("DROP TABLE jayr");
 				databaseService.addDatabase($scope.connection);
 				databaseService.connect($scope.connection);
+				$scope.$broadcast('newConnection',[]);
+				$scope.getDatabases();
 				sqlite.close();
 			}
 		}catch(c){
 			alert(c)
 		}
 	}
+
+	$scope.getConnected = function(){
+		databaseService.getConnecteds(function(res){
+			$scope.connecteds = res;	
+		})
+		
+	}
+
+	$scope.getDatabases = function(){
+		$scope.getConnected();
+		databaseService.getDatabase(function(res){
+			$scope.databases = res;
+			loop(0);
+			function loop(i){
+				if(i < $scope.databases.length){
+					var base = $scope.databases[i];
+
+					if($scope.connecteds.indexOf(base) > -1){
+
+						var sq = require('sqlite-cipher');
+						sq.connect(base.path, base.password, base.algorithm);
+						sq.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){
+							$scope.databases[i].tables = tables;
+							$scope.databases[i].connected = true;
+							sq.close();
+							loop(i+1)
+						});
+					}else{
+						$scope.databases[i].connected = false;
+						loop(i+1);
+					}
+
+					
+				}
+			}
+		});
+	}
+
+	$scope.connect = function(base){
+		databaseService.connect(base);
+		$scope.$broadcast('newConnection',[]);
+		var sq = require('sqlite-cipher');
+		sq.connect(base.path, base.password, base.algorithm);
+		sq.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){
+			base.tables = tables;
+			base.connected = true;
+			sq.close();
+		});
+	}
+
+	$scope.$on("change",function(e,a){
+		$scope.getDatabases();
+	})
 });

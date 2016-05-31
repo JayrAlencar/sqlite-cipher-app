@@ -4,7 +4,6 @@ app.service('databaseService', function() {
 	var actions = {};
 
 	actions.addDatabase = function(data){
-		console.log(data);
 		basel.database.insert('databases', data);
 	}
 
@@ -19,9 +18,9 @@ app.service('databaseService', function() {
 	}
 
 	actions.connect = function(data){
-		var sqlite = require('sqlite-cipher');
-		sqlite.connect(data.path, data.password, data.algorithm);
-		data.connection = sqlite;
+		// var sqlite = require('sqlite-cipher');
+		// sqlite.connect(data.path, data.password, data.algorithm);
+		// data.connection = sqlite;
 		
 		databases.push(data);
 	}
