@@ -1,13 +1,20 @@
 <div ng-controller="editorController">
-	<div class="row">
-		<div class="col-md-12">
+	<div class="row" ng-init="init()">
+		<div class="col-md-4">
 			<div class="btn-group" role="group" >
-				<button type="button" class="btn btn-default" alt="Execute query"><span class="glyphicon glyphicon-play"></span></button>
+				<button type="button" class="btn btn-default" ng-click="run()"  alt="Execute query"><span class="glyphicon glyphicon-play"></span></button>
 			</div>
+		</div>
+		<div class="col-md-4">
+			<select class="form-control" ng-model="connection" ng-options="database as database.alias for database in databases track by database.id">
+			</select>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12" contenteditable="true">
+		<div class="col-md-12" >
+			<div contenteditable
+        	name="myWidget"
+        	strip-br="false" class="editor" ng-model="editorContent" ng-change="modifyContent()"></div>
 		</div>
 	</div>
 </div>
