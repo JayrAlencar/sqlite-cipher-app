@@ -1,6 +1,6 @@
 {
 	"name":"sqlite-cipher-app",
-	"version":"0.0.3",
+	"version":"0.0.4",
 	"description":"Base app for basel",
 	"main":"main.js",
 	"scripts":{

@@ -1,5 +1,5 @@
 "use strict";
-app.controller("mainController", function($scope){
+app.controller("mainController", function($scope, databaseService){
 	var sqlite = require("sqlite-cipher");
 
 	$scope.algorithms = sqlite.algorithms;
@@ -79,6 +79,7 @@ app.controller("mainController", function($scope){
 			}else{
 				$scope.btnTest = "Tested"
 				sqlite.run("DROP TABLE jayr");
+				sqlite.close();
 			}
 		}catch(c){
 			alert(c)
@@ -86,6 +87,21 @@ app.controller("mainController", function($scope){
 	}
 
 	$scope.connectSave = function(){
-		
+		try{
+			sqlite.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm);
+			var res = sqlite.run("CREATE TABLE jayr(name TEXT)");
+			if(res.error){
+				console.log(res.error);
+				alert("Invalid Password! Please check your password or database name.");
+			}else{
+				$('#modalConnction').modal('hide');
+				sqlite.run("DROP TABLE jayr");
+				databaseService.addDatabase($scope.connection);
+				databaseService.connect($scope.connection);
+				sqlite.close();
+			}
+		}catch(c){
+			alert(c)
+		}
 	}
 });
