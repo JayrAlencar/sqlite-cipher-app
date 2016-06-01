@@ -33,7 +33,7 @@ app.controller("editorController", function($scope, databaseService){
 	}
 
 	$scope.modifyContent = function(){
-		console.log($scope.editorContent)
+		// console.log($scope.editorContent)
 	}
 
 	$scope.$on('newConnection', function(event, args) {
@@ -41,6 +41,7 @@ app.controller("editorController", function($scope, databaseService){
 	})
 
 	function executing(sql){
+		console.log(sql)
 		var sqlite = require("sqlite-cipher");
 		sqlite.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm);
 		var type = sql.substring(0,6);
@@ -48,7 +49,7 @@ app.controller("editorController", function($scope, databaseService){
 		sqlite.run(sql, function(res){
 			console.log(res)
 			if(res.error){
-				$scope.results.push({type:"alert",class:"alert-danger",message:res.error.message});
+				$scope.results.push({type:"alert",class:"alert-danger",message:res.error.message+"<br>"+sql});
 			}else{
 				switch(type){
 					case "INSERT":
