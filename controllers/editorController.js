@@ -1,8 +1,10 @@
 "use strict";
 app.controller("editorController", function($scope, databaseService){
+	const app  = require('electron');
 
-	var remote = require('remote'); 
- 	var dialog = remote.require('dialog'); 
+	var remote = app.remote; 
+ 	var dialog = remote.dialog; 
+
  	var fs = require("fs");
 
 	$scope.init = function(){

@@ -1,6 +1,6 @@
 var electron = require('electron');
-var app = require('app');
-var BrowserWindow = require('browser-window');
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
 
 // referência global para manter a instância da janela até que sejam fechadas pelo usuário então ele irá ser fechado quando o JavaScript fizer Garbage collection
 var mainWindow = null;
@@ -20,7 +20,7 @@ app.on('ready', function() {
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // aber o DevTools. (console, inspecionar elemento, etc)
-  // mainWindow.webContents.openDevTools(); 
+  mainWindow.webContents.openDevTools(); 
 
   // Evento emitido quando a janela é fechada, usado para destruir instancia.
   mainWindow.on('closed', function() {
