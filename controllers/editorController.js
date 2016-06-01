@@ -3,9 +3,10 @@ app.controller("editorController", function($scope, databaseService){
 	const app  = require('electron');
 
 	var remote = app.remote; 
- 	var dialog = remote.dialog; 
+	var dialog = remote.dialog; 
+	var globalShortcut = remote.globalShortcut;
 
- 	var fs = require("fs");
+	var fs = require("fs");
 
 	$scope.init = function(){
 		databaseService.getConnecteds(function(res){
@@ -55,20 +56,20 @@ app.controller("editorController", function($scope, databaseService){
 			}else{
 				switch(type){
 					case "INSERT":
-						$scope.results.push({type:"alert",class:"alert-success",message:"Success - insert id: "+res});
-						break;
+					$scope.results.push({type:"alert",class:"alert-success",message:"Success - insert id: "+res});
+					break;
 					case "UPDATE":
-						$scope.results.push({type:"alert",class:"alert-success",message:"Success - Affected rows: "+res});
-						break;
+					$scope.results.push({type:"alert",class:"alert-success",message:"Success - Affected rows: "+res});
+					break;
 					case "DELETE":
-						$scope.results.push({type:"alert",class:"alert-success",message:"Success - Affected rows: "+res});
-						break;
+					$scope.results.push({type:"alert",class:"alert-success",message:"Success - Affected rows: "+res});
+					break;
 					case "SELECT":
-							$scope.results.push({type:"table",rows:res, fields:fields(res)});
-						break;
+					$scope.results.push({type:"table",rows:res, fields:fields(res)});
+					break;
 					case "CREATE":
-						$scope.results.push({type:"alert",class:"alert-success",message:"Success!"});
-						break;
+					$scope.results.push({type:"alert",class:"alert-success",message:"Success!"});
+					break;
 				}
 				$scope.$emit("change");
 			}
@@ -87,6 +88,16 @@ app.controller("editorController", function($scope, databaseService){
 			fs.writeFile(fileName, sql, function(err){
 				dialog.showMessageBox({ message: "The file has been saved!",buttons: ["OK"],type :'info', title:"SQLite-cipher App" });
 			});
- 		}); 
+		}); 
 	}
+
+	globalShortcut.register('F9', () => {
+		$scope.run();
+		$scope.$apply();
+	});
+
+	globalShortcut.register('CommandOrControl+S', () => {
+		$scope.save();
+	});
+
 });
