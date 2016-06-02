@@ -1,9 +1,9 @@
-"use strict";
 app.controller("editorController", function($scope, databaseService){
 	ace.require("ace/ext/language_tools");
 	var editor = ace.edit("editor");
 	editor.session.setMode("ace/mode/sql");
-	editor.setTheme("ace/theme/tomorrow");
+	editor.setTheme("ace/theme/sqlserver");
+	var langTools = ace.require("ace/ext/language_tools");
     // enable autocompletion and snippets
     editor.setOptions({
     	enableBasicAutocompletion: true,
@@ -11,6 +11,7 @@ app.controller("editorController", function($scope, databaseService){
     	enableLiveAutocompletion: false,
     	autoScrollEditorIntoView: true,
     });
+
 
     const app  = require('electron');
 
@@ -30,9 +31,9 @@ app.controller("editorController", function($scope, databaseService){
     }
 
     win.on("resize", function(r){
-	  sizes();
-	});
-	
+    	sizes();
+    });
+
 
     var fs = require("fs");
 
@@ -44,6 +45,9 @@ app.controller("editorController", function($scope, databaseService){
     }
 
     $scope.results = [];
+    $scope.tables = [];
+    $scope.fields = [];
+    $scope.sql = '';
 
     $scope.run = function(){
     	$scope.editorContent = editor.getSession().getValue();
@@ -122,6 +126,67 @@ app.controller("editorController", function($scope, databaseService){
 		}); 
 	}
 
+	// Autocompleter
+	var completerTables = {
+		getCompletions: function(editor, session, pos, prefix, callback) {
+			if (prefix.length === 0) { callback(null, $scope.tables.map(function(ea){
+				callback(null, $scope.tables.map(function(ea)  {           
+					return {name: ea.name, value: ea.name, meta: "TABLE"}
+				}));
+			})); }
+			var sqlite = require("sqlite-cipher");
+			sqlite.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm);
+			sqlite.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){
+				$scope.tables = tables
+				callback(null, tables.map(function(ea)  {           
+					return {name: ea.name, value: ea.name, meta: "TABLE"}
+				}));
+			});
+		}
+	}
+
+	var completerFields = {
+		getCompletions: function(editor, session, pos, prefix, callback) {
+			var tables = getStatementTables($scope.sql);
+			if (prefix.length === 0) { callback(null, $scope.fields.map(function(ea){
+				callback(null, $scope.fields.map(function(ea)  {           
+					return {name: ea.name, value: ea.name, meta: "From: "+ea.table+" Type: "+ea.type}
+				}));
+			})); }
+
+			if(tables.length){
+				$scope.fields = [];
+				var sqlite = require("sqlite-cipher");
+				sqlite.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm);
+				for(i in tables){
+					var fields = sqlite.run("PRAGMA table_info(?) ",[tables[i]]);
+					console.log(fields)
+					for(j in fields){
+						fields[j].table = tables[i];
+						$scope.fields.push(fields[j]);
+					}
+				}
+				callback(null, $scope.fields.map(function(ea){
+					return {name: ea.name, value: ea.name, meta: "From: "+ea.table+" Type: "+ea.type}
+				}))
+			}
+			
+		}
+	}
+
+	editor.getSession().on('change', function(){
+		// $scope.sql = editor.getSession().getValue();
+		// var t = getStatementTables($scope.sql);
+		// if(t.length>0){
+		// 	langTools.addCompleter(completerFields)	
+		// }
+    })
+
+	$scope.changeConnection = function(){
+		langTools.addCompleter(completerTables);
+	}
+
+
 	globalShortcut.register('F9', () => {
 		$scope.run();
 		$scope.$apply();
@@ -130,5 +195,18 @@ app.controller("editorController", function($scope, databaseService){
 	globalShortcut.register('CommandOrControl+S', () => {
 		$scope.save();
 	});
+
+	function getStatementTables(sql){
+		var re = /\b(?:from|into|update|join)\s+(\w+)/gi; 
+		var m;
+		var tables = [];
+		while ((m = re.exec(sql)) !== null) {
+			if (m.index === re.lastIndex) {
+				re.lastIndex++;
+			}
+			tables.push(m[1])
+		}
+		return tables;
+	}
 
 });
