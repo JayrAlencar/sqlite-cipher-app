@@ -1,5 +1,17 @@
 "use strict";
 app.controller("editorController", function($scope, databaseService){
+	ace.require("ace/ext/language_tools");
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/sql");
+    editor.setTheme("ace/theme/tomorrow");
+    // enable autocompletion and snippets
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false,
+        autoScrollEditorIntoView: true,
+    });
+
 	const app  = require('electron');
 
 	var remote = app.remote; 
@@ -17,6 +29,7 @@ app.controller("editorController", function($scope, databaseService){
 	$scope.results = [];
 
 	$scope.run = function(){
+		$scope.editorContent = editor.getSession().getValue();
 		if($scope.connection){
 			$scope.results = [];
 			var sql = $("<div>"+$scope.editorContent+"</div>").text();

@@ -11,35 +11,38 @@
 			</select>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12" >
-			<textarea class="form-control" ng-model="editorContent" rows="10"></textarea>
+	<div class="all">
+		<div class="row">
+			<div class="col-md-12" >
+				<!-- <textarea class="form-control" ng-model="editorContent" rows="10"></textarea> -->
+				<pre id="editor"></pre>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="editor">
-				<div ng-repeat="res in results">
-					<div class="alert {{res.class}}" ng-show="res.type == 'alert'">
-						{{res.message}}
-					</div>
-					<div ng-show="res.type == 'table'">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th ng-repeat="field in res.fields">
-										{{field}}
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="row in res.rows">
-									<td ng-repeat="field in res.fields">
-										{{row[field]}}
-									</td>
-								</tr>
-							</tbody>
-						</table>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="editor">
+					<div ng-repeat="res in results">
+						<div class="alert {{res.class}}" ng-show="res.type == 'alert'">
+							{{res.message}}
+						</div>
+						<div ng-show="res.type == 'table'">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th ng-repeat="field in res.fields">
+											{{field}}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="row in res.rows">
+										<td ng-repeat="field in res.fields">
+											{{row[field]}}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

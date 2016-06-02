@@ -3,6 +3,10 @@
 	font-size: 18px;
 }
 
+.all{
+    height: 100%;
+}
+
 
 .dropdown-submenu {
     position: relative;

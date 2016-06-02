@@ -46,3 +46,10 @@ app.directive('customOnChange', function() {
     }
   };
 });
+
+const electron  = require('electron');
+var win = electron.remote.getCurrentWindow();
+win.on("resize", function(r){
+  $('body').height(win.getSize()[1]);
+})
+$('body').height(win.getSize()[1]);
