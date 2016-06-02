@@ -1,54 +1,71 @@
 "use strict";
 app.controller("editorController", function($scope, databaseService){
 	ace.require("ace/ext/language_tools");
-    var editor = ace.edit("editor");
-    editor.session.setMode("ace/mode/sql");
-    editor.setTheme("ace/theme/tomorrow");
+	var editor = ace.edit("editor");
+	editor.session.setMode("ace/mode/sql");
+	editor.setTheme("ace/theme/tomorrow");
     // enable autocompletion and snippets
     editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: false,
-        autoScrollEditorIntoView: true,
+    	enableBasicAutocompletion: true,
+    	enableSnippets: true,
+    	enableLiveAutocompletion: false,
+    	autoScrollEditorIntoView: true,
     });
 
-	const app  = require('electron');
+    const app  = require('electron');
 
-	var remote = app.remote; 
-	var dialog = remote.dialog; 
-	var globalShortcut = remote.globalShortcut;
+    var remote = app.remote; 
+    var dialog = remote.dialog; 
+    var globalShortcut = remote.globalShortcut;
+    var win = app.remote.getCurrentWindow();
 
-	var fs = require("fs");
+    function sizes(){
+    	var total = $('.all').height();
+    	if(total == 0){
+    		total = (win.getSize()[1])-200;
+    	}
+    	console.log(total)
+    	var mid = total/2;
+    	$('.mid').height(mid);
+    }
 
-	$scope.init = function(){
-		databaseService.getConnecteds(function(res){
-			$scope.databases = res;
-		});
-	}
+    win.on("resize", function(r){
+	  sizes();
+	});
+	
 
-	$scope.results = [];
+    var fs = require("fs");
 
-	$scope.run = function(){
-		$scope.editorContent = editor.getSession().getValue();
-		if($scope.connection){
-			$scope.results = [];
-			var sql = $("<div>"+$scope.editorContent+"</div>").text();
+    $scope.init = function(){
+    	databaseService.getConnecteds(function(res){
+    		$scope.databases = res;
+    	});
+    	sizes();
+    }
 
-			var sqls = sql.split(';');
+    $scope.results = [];
+
+    $scope.run = function(){
+    	$scope.editorContent = editor.getSession().getValue();
+    	if($scope.connection){
+    		$scope.results = [];
+    		var sql = $("<div>"+$scope.editorContent+"</div>").text();
+
+    		var sqls = sql.split(';');
 
 
-			for(var i in sqls){
-				if(sqls[i] && sqls[i] != ''){
-					executing(sqls[i]);	
-				}
-				
-			}
-		}else{
-			dialog.showErrorBox("Error", "Please connect in a database");
-		}
-	}
+    		for(var i in sqls){
+    			if(sqls[i] && sqls[i] != ''){
+    				executing(sqls[i]);	
+    			}
 
-	$scope.modifyContent = function(){
+    		}
+    	}else{
+    		dialog.showErrorBox("Error", "Please connect in a database");
+    	}
+    }
+
+    $scope.modifyContent = function(){
 		// console.log($scope.editorContent)
 	}
 
@@ -97,6 +114,7 @@ app.controller("editorController", function($scope, databaseService){
 
 	$scope.save = function(){
 		dialog.showSaveDialog(function (fileName) {
+			$scope.editorContent = editor.getSession().getValue();
 			var sql = $("<div>"+$scope.editorContent+"</div>").text();
 			fs.writeFile(fileName, sql, function(err){
 				dialog.showMessageBox({ message: "The file has been saved!",buttons: ["OK"],type :'info', title:"SQLite-cipher App" });
