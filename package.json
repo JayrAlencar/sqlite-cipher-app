@@ -1,6 +1,6 @@
 {
 	"name":"sqlite-cipher-app",
-	"version":"0.0.14",
+	"version":"0.0.15",
 	"description":"App to handler sqlite database ciphered",
 	"main":"main.js",
 	"scripts":{

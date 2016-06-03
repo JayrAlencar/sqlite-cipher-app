@@ -52,18 +52,24 @@ app.controller("editorController", function($scope, databaseService){
 
     $scope.run = function(){
     	$scope.editorContent = editor.getSession().getValue();
-    	if($scope.connection){
+    	if($scope.connection.path){
     		$scope.results = [];
-    		var sql = $("<div>"+$scope.editorContent+"</div>").text();
-
-    		var sqls = sql.split(';');
-
-
+    		var sql = $scope.editorContent;
+    		sql = sql.replace(/(\r\n|\n|\r)/gm,"");
+    		var sqls = sql.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)(?=(?:(?:[^']*'){2})*[^']*$)/gi);
+    		// if(sqls.length>100){
+    		// 	 executeMore100(sqls);
+    		// }else{
+    		// 	for(var i in sqls){
+	    	// 		if(sqls[i] && sqls[i] != ''){
+	    	// 			executing(sqls[i],i);	
+	    	// 		}
+	    	// 	}
+    		// }
     		for(var i in sqls){
     			if(sqls[i] && sqls[i] != ''){
-    				executing(sqls[i]);	
+    				executing(sqls[i],i);	
     			}
-
     		}
     	}else{
     		dialog.showErrorBox("Error", "Please connect in a database");
@@ -75,41 +81,64 @@ app.controller("editorController", function($scope, databaseService){
 	}
 
 	$scope.$on('newConnection', function(event, args) {
-		$scope.init();
+		databaseService.getConnecteds(function(res){
+    		$scope.databases = res;
+    	});
 	})
 
-	function executing(sql){
-		console.log(sql)
+	function executeMore100(sqls){
+		sqls = chunk(sqls,100);
+		console.log(sqls);
+		for(i in sqls){
+			var sqlite = require("sqlite-cipher");
+			var list = sqls[i];
+			for(j in list){
+				if(list[j] && list[j] != ''){
+    				executing(list[j],j);	
+    			}
+			}
+		}
+	}
+
+	function executing(sql, line){
+		line++;
 		var sqlite = require("sqlite-cipher");
 		sqlite.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm);
+		sql = sql.trim();
 		var type = sql.substring(0,6);
 		type = type.toUpperCase();
+		console.log(sql)
+		console.log(type)
 		sqlite.run(sql, function(res){
 			console.log(res)
 			if(res.error){
-				$scope.results.push({type:"alert",class:"alert-danger",message:res.error.message+"<br>"+sql});
+				$scope.results.push({type:"alert",class:"alert-danger",message:res.error.message+" - Line: "+line+" - "+sql});
 			}else{
 				switch(type){
 					case "INSERT":
-					$scope.results.push({type:"alert",class:"alert-success",message:"Success - insert id: "+res});
-					break;
+						$scope.results.push({type:"alert",class:"alert-success",message:"Line: "+line+" - Success - insert id: "+res});
+						break;
 					case "UPDATE":
-					$scope.results.push({type:"alert",class:"alert-success",message:"Success - Affected rows: "+res});
-					break;
+						$scope.results.push({type:"alert",class:"alert-success",message:"Line: "+line+" - Success - Affected rows: "+res});
+						break;
 					case "DELETE":
-					$scope.results.push({type:"alert",class:"alert-success",message:"Success - Affected rows: "+res});
-					break;
+						$scope.results.push({type:"alert",class:"alert-success",message:"Line: "+line+" - Success - Affected rows: "+res});
+						break;
 					case "SELECT":
-					$scope.results.push({type:"table",rows:res, fields:fields(res)});
-					break;
+						if(res.length){
+							$scope.results.push({type:"table",rows:res, fields:fields(res)});
+						}else{
+							$scope.results.push({type:"alert",class:"alert-warning",message:"Line: "+line+" - No results found!"});
+						}
+						break;
 					case "CREATE":
-					$scope.results.push({type:"alert",class:"alert-success",message:"Success!"});
-					break;
+						$scope.results.push({type:"alert",class:"alert-success",message:"Line: "+line+" - Success!"});
+						break;
 				}
 				$scope.$emit("change");
 			}
-
 		});
+		sqlite.close();
 	}
 
 	function fields(data){
@@ -225,4 +254,13 @@ app.controller("editorController", function($scope, databaseService){
 		return tables;
 	}
 
+	function  chunk(arr,size) {
+		var newArr = [];
+		for(var i = 0 ; i < arr.length; i+=size){
+			newArr.push(arr.slice(i, i+size));
+		}
+		return newArr;
+	}
+
 });
+// (?:[^\b;"]+|"[^"]*")+

@@ -17,6 +17,8 @@ app.on('ready', function() {
   // Cria a janela do browser.
   mainWindow = new BrowserWindow({width: 1400, height: 700, frame:true});
 
+  mainWindow.setMenu(null);
+
   // Carrega o arquivo html principal.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 

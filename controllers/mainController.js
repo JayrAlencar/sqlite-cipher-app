@@ -7,7 +7,7 @@ app.controller("mainController", function($scope, databaseService){
 	$scope.btnTest = "Test connection";
 
 	$scope.app = basel.config;
-	$scope.app.title += " - v0.0.13";
+	$scope.app.title += " - v0.0.15";
 	$scope.menus = basel.database.run("SELECT * FROM crud WHERE ativo = 1 AND show_menu = 1");
 
 	$scope.connection = {};
