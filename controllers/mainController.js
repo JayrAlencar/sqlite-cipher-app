@@ -124,25 +124,34 @@ app.controller("mainController", function($scope, databaseService){
 				if(i < $scope.databases.length){
 					var base = $scope.databases[i];
 
-					if($scope.connecteds.indexOf(base) > -1){
 
+					if(isConnected(base)){
 						var sq = require('sqlite-cipher');
 						sq.connect(base.path, base.password, base.algorithm);
+						
 						sq.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){
 							$scope.databases[i].tables = tables;
 							$scope.databases[i].connected = true;
 							sq.close();
+							console.log()
 							loop(i+1)
 						});
 					}else{
 						$scope.databases[i].connected = false;
 						loop(i+1);
 					}
-
-					
 				}
 			}
 		});
+	}
+
+	function isConnected(data){
+		for(i in $scope.connecteds){
+			if($scope.connecteds[i].id == data.id){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	$scope.connect = function(base){

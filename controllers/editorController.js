@@ -26,7 +26,6 @@ app.controller("editorController", function($scope, databaseService){
     	if(total == 0){
     		total = (win.getSize()[1])-200;
     	}
-    	console.log(total)
     	var mid = total/2;
     	$('.mid').height(mid);
     }
@@ -57,15 +56,6 @@ app.controller("editorController", function($scope, databaseService){
     		var sql = $scope.editorContent;
     		sql = sql.replace(/(\r\n|\n|\r)/gm,"");
     		var sqls = sql.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)(?=(?:(?:[^']*'){2})*[^']*$)/gi);
-    		// if(sqls.length>100){
-    		// 	 executeMore100(sqls);
-    		// }else{
-    		// 	for(var i in sqls){
-	    	// 		if(sqls[i] && sqls[i] != ''){
-	    	// 			executing(sqls[i],i);	
-	    	// 		}
-	    	// 	}
-    		// }
     		for(var i in sqls){
     			if(sqls[i] && sqls[i] != ''){
     				executing(sqls[i],i);	
