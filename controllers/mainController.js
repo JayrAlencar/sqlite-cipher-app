@@ -125,7 +125,7 @@ app.controller("mainController", function($scope, databaseService){
 					var base = $scope.databases[i];
 
 
-					if(isConnected(base)){
+					if(false){
 						var sq = require('sqlite-cipher');
 						sq.connect(base.path, base.password, base.algorithm);
 						
