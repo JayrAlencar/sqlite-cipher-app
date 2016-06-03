@@ -140,6 +140,7 @@ app.controller("mainController", function($scope, databaseService){
 						$scope.databases[i].connected = false;
 						loop(i+1);
 					}
+					
 				}
 			}
 		});
