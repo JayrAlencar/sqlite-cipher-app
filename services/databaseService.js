@@ -14,15 +14,17 @@ app.service('databaseService', function() {
 	}
 
 	actions.getConnecteds = function(callback){
-		callback(databases);
+		callback(basel.database.run("SELECT * FROM databases WHERE active = 1 AND connected = 1"));
 	}
 
 	actions.connect = function(data){
-		// var sqlite = require('sqlite-cipher');
-		// sqlite.connect(data.path, data.password, data.algorithm);
-		// data.connection = sqlite;
-		
 		databases.push(data);
+		basel.database.update('databases',{connected: 1},{id: data.id});
+	}
+
+	actions.disconnectAll = function(){
+		var databases = [];
+		basel.database.update('databases',{connected: 0},{});
 	}
 
 	return actions;
