@@ -20,6 +20,7 @@ app.controller("editorController", function($scope, databaseService){
     var globalShortcut = remote.globalShortcut;
     var win = app.remote.getCurrentWindow();
 
+
     function sizes(){
     	var total = $('.all').height();
     	if(total == 0){
@@ -34,7 +35,6 @@ app.controller("editorController", function($scope, databaseService){
     	sizes();
     });
 
-
     var fs = require("fs");
 
     $scope.init = function(){
@@ -48,6 +48,7 @@ app.controller("editorController", function($scope, databaseService){
     $scope.tables = [];
     $scope.fields = [];
     $scope.sql = '';
+    $scope.winFocus = true;
 
     $scope.run = function(){
     	$scope.editorContent = editor.getSession().getValue();
@@ -186,7 +187,6 @@ app.controller("editorController", function($scope, databaseService){
 		langTools.addCompleter(completerTables);
 	}
 
-
 	globalShortcut.register('F9', () => {
 		$scope.run();
 		$scope.$apply();
@@ -195,6 +195,22 @@ app.controller("editorController", function($scope, databaseService){
 	globalShortcut.register('CommandOrControl+S', () => {
 		$scope.save();
 	});
+	
+
+	win.on("focus", function(){
+    	globalShortcut.register('F9', () => {
+			$scope.run();
+			$scope.$apply();
+		});
+
+		globalShortcut.register('CommandOrControl+S', () => {
+			$scope.save();
+		});
+    });
+
+    win.on("blur", function(){
+    	globalShortcut.unregisterAll();
+    });
 
 	function getStatementTables(sql){
 		var re = /\b(?:from|into|update|join)\s+(\w+)/gi; 

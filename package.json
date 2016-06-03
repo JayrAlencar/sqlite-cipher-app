@@ -1,15 +1,15 @@
 {
 	"name":"sqlite-cipher-app",
-	"version":"0.0.13",
+	"version":"0.0.14",
 	"description":"App to handler sqlite database ciphered",
 	"main":"main.js",
 	"scripts":{
 		"start":"electron main.js",
-		"win32":"electron-packager . myApp --platform=win32 --arch=ia32",
-		"win64":"electron-packager . myApp --platform=win32 --arch=x64",
-		"linux32":"electron-packager . myApp --platform=linux --arch=ia32",
-		"linux64":"electron-packager . myApp --platform=linux --arch=x64",
-		"osx":"electron-packager . myApp --platform=darwin --arch=x64",
+		"win32":"electron-packager . sqlite-cipher --platform=win32 --arch=ia32",
+		"win64":"electron-packager . sqlite-cipher --platform=win32 --arch=x64",
+		"linux32":"electron-packager . sqlite-cipher --platform=linux --arch=ia32",
+		"linux64":"electron-packager . sqlite-cipher --platform=linux --arch=x64",
+		"osx":"electron-packager . sqlite-cipher --platform=darwin --arch=x64",
 		"build":"electron-packager . --all"
 	},
 	"devDependencies":{

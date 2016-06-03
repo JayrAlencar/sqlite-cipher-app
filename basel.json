@@ -1,1 +1,8 @@
-{"name":"sqlite-cipher-app","branch":"master","database":"database","title":"sqlite-cipher","type":"simple","base":"tabs"}
+{
+	"name":"sqlite-cipher-app",
+	"branch":"master",
+	"database":"database",
+	"title":"SQLite-cipher",
+	"type":"simple",
+	"base":"tabs"
+}
