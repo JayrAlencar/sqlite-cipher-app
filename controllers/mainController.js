@@ -1,6 +1,8 @@
 "use strict";
-app.controller("mainController", function($scope, databaseService){
+app.controller("mainController", function($scope, $controller, databaseService){
 	var sqlite = require("sqlite-cipher");
+
+	// console.log($controller)
 
 	databaseService.disconnectAll();
 
@@ -9,7 +11,7 @@ app.controller("mainController", function($scope, databaseService){
 	$scope.btnTest = "Test connection";
 
 	$scope.app = basel.config;
-	$scope.app.title += " - v0.0.18";
+	$scope.app.title += " - v0.0.19";
 	$scope.menus = basel.database.run("SELECT * FROM crud WHERE ativo = 1 AND show_menu = 1");
 
 	$scope.connection = {};
@@ -22,11 +24,14 @@ app.controller("mainController", function($scope, databaseService){
 	{
 		name:'Home',
 		view:'home.html',
-		active: true
+		active: true,
+		controller: homeController,
+		id: 1
 	}
 	];
 
 	$scope.addTab = function(options){
+		options.id = options.id || (new Date()).getTime();
 		if($scope.tabs.indexOf(options) < 0){
 			if(options.active){
 				for(i in $scope.tabs){
@@ -166,6 +171,15 @@ app.controller("mainController", function($scope, databaseService){
 			base.tables = tables;
 			base.connected = true;
 			sq.close();
+		});
+	}
+
+	$scope.newEditor = function(data){
+		$scope.addTab({
+			active: true, 
+			view: 'editor.html', 
+			name: 'Editor',
+			controller: editorController
 		});
 	}
 

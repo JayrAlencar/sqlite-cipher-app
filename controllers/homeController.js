@@ -1,4 +1,4 @@
 "use strict";
-app.controller("homeController", function($scope){
+function homeController($scope){
 	$scope.message = "Welcome to sqlite-cipher App";
-});
+}

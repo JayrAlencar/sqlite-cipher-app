@@ -32,7 +32,7 @@
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
-										<a href="" ng-click="addTab({active: true, view: 'editor.html', name: 'Editor'})">
+										<a href="" ng-click="newEditor()">
 											<span class="glyphicon glyphicon-file"></span> Editor
 										</a>
 									</li>
@@ -42,7 +42,7 @@
 						</ul>
 					</li>
 					<li>
-						<a href="" ng-click="addTab({active: true, view: 'editor.html', name: 'Editor'})">
+						<a href="" ng-click="newEditor()">
 							<span class="glyphicon glyphicon-file"></span> New Editor
 						</a>
 					</li>
@@ -84,7 +84,7 @@
 
 				<!-- Tab panes -->
 				<div class="tab-content">
-					<div role="tabpanel" ng-repeat="tab in tabs" class="tab-pane" ng-class="{active: tab.active}" id="home" ng-include="'views/'+tab.view">
+					<div role="tabpanel" ng-repeat="tab in tabs" class="tab-pane" ng-class="{active: tab.active}" id="home" ng-include="'views/'+tab.view" ng-controller="tab.controller" ng-init="tab_id = tab.id">
 
 					</div>
 				</div>

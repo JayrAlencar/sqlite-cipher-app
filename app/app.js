@@ -47,3 +47,18 @@ app.directive('customOnChange', function() {
   };
 });
 
+app.directive('myController', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, tElement, attrs) {
+          scope.$watch(attrs.myController, function(ctrlName) {
+            var div = tElement;
+            div.attr('ng-controller',ctrlName);
+          });
+        }
+    }
+});
+
+function test($scope){
+  $scope.message = "Scope test"
+}
