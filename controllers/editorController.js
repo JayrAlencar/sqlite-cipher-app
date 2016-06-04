@@ -1,6 +1,16 @@
 app.controller("editorController", function($scope, databaseService){
+
+	$scope.id_editor = Math.floor(Math.random() * 100) + 1  ;
+
 	ace.require("ace/ext/language_tools");
-	var editor = ace.edit("editor");
+
+	var editor;
+	$('.aceEditor').each(function( index ) {
+		editor = ace.edit(this);
+		// editor.getSession().setMode('ace/mode/csharp');
+	});
+
+	// var editor = ace.edit("editor");
 	editor.session.setMode("ace/mode/sql");
 	editor.setTheme("ace/theme/sqlserver");
 	var langTools = ace.require("ace/ext/language_tools");
