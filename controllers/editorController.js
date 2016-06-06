@@ -19,11 +19,12 @@ function editorController($scope, databaseService){
     		enableLiveAutocompletion: true
     	},
     	onLoad: function(editor, session, ace){
-    		
+    		$scope.langTools = ace.require('ace/ext/language_tools');
+    		session.on('change',function(){
+    			$scope.editorContent = session.getValue();
+    		});
     	}
     };
-	
-
 
     const app  = require('electron');
 
@@ -73,10 +74,6 @@ function editorController($scope, databaseService){
     		dialog.showErrorBox("Error", "Please connect in a database");
     	}
     }
-
-    $scope.modifyContent = function(){
-		// console.log($scope.editorContent)
-	}
 
 	$scope.$on('newConnection', function(event, args) {
 		databaseService.getConnecteds(function(res){
@@ -202,10 +199,15 @@ function editorController($scope, databaseService){
 		}
 	}
 
+	$scope.test = function(){
+		console.log($scope.editorContent);
+	}
 
-	$scope.changeConnection = function(){
+
+	$scope.changeConnection = function(a){
+		$scope.connection = a
 		console.log($scope.connection)
-		// $scope.langTools.addCompleter(completerTables);
+		$scope.langTools.addCompleter(completerTables);
 	}
 
 	globalShortcut.register('F9', () => {
@@ -255,3 +257,5 @@ function editorController($scope, databaseService){
 	}
 
 }
+
+app.controller('editorController',editorController);
