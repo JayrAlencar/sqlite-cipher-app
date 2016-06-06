@@ -18,8 +18,8 @@ function editorController($scope, databaseService){
     		enableBasicAutocompletion: true,
     		enableLiveAutocompletion: true
     	},
-    	onLoad: function(ace){
-    		console.log(ace)
+    	onLoad: function(editor, session, ace){
+    		
     	}
     };
 	

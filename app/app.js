@@ -1,6 +1,6 @@
 "use strict";
 var basel = require('basel-cli');
-var app = angular.module('cdg',['angularUtils.directives.dirPagination', 'ui.ace']);
+var app = angular.module('cdg',['angularUtils.directives.dirPagination', 'ace.angular']);
 var sql_text = require('./uses/sql-text');
 
 app.directive('contenteditable', function() {

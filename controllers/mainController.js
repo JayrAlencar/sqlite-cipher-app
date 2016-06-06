@@ -11,7 +11,7 @@ app.controller("mainController", function($scope, $controller, databaseService){
 	$scope.btnTest = "Test connection";
 
 	$scope.app = basel.config;
-	$scope.app.title += " - v0.0.19";
+	$scope.app.title += " - v0.0.21";
 	$scope.menus = basel.database.run("SELECT * FROM crud WHERE ativo = 1 AND show_menu = 1");
 
 	$scope.connection = {};
@@ -45,7 +45,6 @@ app.controller("mainController", function($scope, $controller, databaseService){
 			}
 			$scope.tabs[$scope.tabs.indexOf(options)].active = true;
 		}
-		console.log($scope.tabs)
 	}
 
 	$scope.activeMe = function(data){
