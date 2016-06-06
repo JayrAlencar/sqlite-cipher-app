@@ -45,7 +45,7 @@ app.controller("mainController", function($scope, $controller, databaseService){
 			}
 			$scope.tabs[$scope.tabs.indexOf(options)].active = true;
 		}
-		
+		console.log($scope.tabs)
 	}
 
 	$scope.activeMe = function(data){
@@ -126,30 +126,6 @@ app.controller("mainController", function($scope, $controller, databaseService){
 		$scope.getConnected();
 		databaseService.getDatabase(function(res){
 			$scope.databases = res;
-			// loop(0);
-			// function loop(i){
-			// 	if(i < $scope.databases.length){
-			// 		var base = $scope.databases[i];
-
-
-			// 		if(false){
-			// 			var sq = require('sqlite-cipher');
-			// 			sq.connect(base.path, base.password, base.algorithm);
-						
-			// 			sq.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){
-			// 				$scope.databases[i].tables = tables;
-			// 				$scope.databases[i].connected = true;
-			// 				sq.close();
-			// 				console.log()
-			// 				loop(i+1)
-			// 			});
-			// 		}else{
-			// 			$scope.databases[i].connected = false;
-			// 			loop(i+1);
-			// 		}
-					
-			// 	}
-			// }
 		});
 	}
 

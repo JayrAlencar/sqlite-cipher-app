@@ -1,48 +1,46 @@
-<div ng-controller="editorController">
-	<div class="row margin-5" ng-init="init()">
-		<div class="col-md-4">
-			<div class="btn-group" role="group" >
-				<button type="button" class="btn btn-default" ng-click="run()"  alt="Execute query (F9)"><span class="glyphicon glyphicon-play"></span> Run</button>
-				<button type="button" class="btn btn-default" ng-click="save()"  alt="Save file (Ctrl + S)"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<select class="form-control" ng-model="connection" ng-options="database as database.alias for database in databases track by database.id" ng-change="changeConnection()">
-			</select>
+<div class="row margin-5" ng-init="init()">
+	<div class="col-md-4">
+		<div class="btn-group" role="group" >
+			<button type="button" class="btn btn-default" ng-click="run()"  alt="Execute query (F9)"><span class="glyphicon glyphicon-play"></span> Run</button>
+			<button type="button" class="btn btn-default" ng-click="save()"  alt="Save file (Ctrl + S)"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
 		</div>
 	</div>
-	<div class="all">
-		<div class="row mid">
-			<div class="col-md-12" style="height:100%" >
-				<!-- <textarea class="form-control" ng-model="editorContent" rows="10"></textarea> -->
-				<pre id="editor" class="aceEditor" style="height:100%"></pre>
-			</div>
+	<div class="col-md-4">
+		<select class="form-control" ng-model="connection" ng-options="database as database.alias for database in databases track by database.id" ng-change="changeConnection()">
+		</select>
+	</div>
+</div>
+<div class="all">
+	<div class="row mid">
+		<div class="col-md-12" style="height:100%" >
+			<!-- <textarea class="form-control" ng-model="editorContent" rows="10"></textarea> -->
+			<pre ui-ace="aceOption" ng-model="editorContent" class="aceEditor" style="height:100%"></pre>
 		</div>
-		<div class="row mid">
-			<div class="col-md-12" style="height:100%">
-				<div class="editor">
-					<div ng-repeat="res in results">
-						<div class="alert {{res.class}}" ng-show="res.type == 'alert'">
-							{{res.message}}
-						</div>
-						<div ng-show="res.type == 'table'">
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th ng-repeat="field in res.fields">
-											{{field}}
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="row in res.rows">
-										<td ng-repeat="field in res.fields">
-											{{row[field]}}
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+	</div>
+	<div class="row mid">
+		<div class="col-md-12" style="height:100%">
+			<div class="editor">
+				<div ng-repeat="res in results">
+					<div class="alert {{res.class}}" ng-show="res.type == 'alert'">
+						{{res.message}}
+					</div>
+					<div ng-show="res.type == 'table'">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th ng-repeat="field in res.fields">
+										{{field}}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="row in res.rows">
+									<td ng-repeat="field in res.fields">
+										{{row[field]}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>

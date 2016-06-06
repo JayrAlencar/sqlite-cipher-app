@@ -1,26 +1,28 @@
-app.controller("editorController", function($scope, databaseService){
-
+function editorController($scope, databaseService){
 	$scope.id_editor = Math.floor(Math.random() * 100) + 1  ;
 
-	ace.require("ace/ext/language_tools");
+	$scope.langTools = ace.require("ace/ext/language_tools");
 
-	var editor;
-	$('.aceEditor').each(function( index ) {
-		editor = ace.edit(this);
-		// editor.getSession().setMode('ace/mode/csharp');
-	});
+	$scope.init = function(){
+    	databaseService.getConnecteds(function(res){
+    		$scope.databases = res;
+    	});
+    	sizes();
+    }
 
-	// var editor = ace.edit("editor");
-	editor.session.setMode("ace/mode/sql");
-	editor.setTheme("ace/theme/sqlserver");
-	var langTools = ace.require("ace/ext/language_tools");
-    // enable autocompletion and snippets
-    editor.setOptions({
-    	enableBasicAutocompletion: true,
-    	enableSnippets: true,
-    	enableLiveAutocompletion: false,
-    	autoScrollEditorIntoView: true,
-    });
+    $scope.aceOption = {
+    	mode: 'sql',
+    	require: ['ace/ext/language_tools'],
+    	advanced: {
+    		enableSnippets: true,
+    		enableBasicAutocompletion: true,
+    		enableLiveAutocompletion: true
+    	},
+    	onLoad: function(ace){
+    		console.log(ace)
+    	}
+    };
+	
 
 
     const app  = require('electron');
@@ -46,12 +48,7 @@ app.controller("editorController", function($scope, databaseService){
 
     var fs = require("fs");
 
-    $scope.init = function(){
-    	databaseService.getConnecteds(function(res){
-    		$scope.databases = res;
-    	});
-    	sizes();
-    }
+    
 
     $scope.results = [];
     $scope.tables = [];
@@ -60,7 +57,8 @@ app.controller("editorController", function($scope, databaseService){
     $scope.winFocus = true;
 
     $scope.run = function(){
-    	$scope.editorContent = editor.getSession().getValue();
+    	// $scope.editorContent = editor.getSession().getValue();
+    	console.log($scope.connection)
     	if($scope.connection.path){
     		$scope.results = [];
     		var sql = $scope.editorContent;
@@ -204,16 +202,10 @@ app.controller("editorController", function($scope, databaseService){
 		}
 	}
 
-	editor.getSession().on('change', function(){
-		// $scope.sql = editor.getSession().getValue();
-		// var t = getStatementTables($scope.sql);
-		// if(t.length>0){
-		// 	langTools.addCompleter(completerFields)	
-		// }
-    })
 
 	$scope.changeConnection = function(){
-		langTools.addCompleter(completerTables);
+		console.log($scope.connection)
+		// $scope.langTools.addCompleter(completerTables);
 	}
 
 	globalShortcut.register('F9', () => {
@@ -262,5 +254,4 @@ app.controller("editorController", function($scope, databaseService){
 		return newArr;
 	}
 
-});
-// (?:[^\b;"]+|"[^"]*")+
+}
