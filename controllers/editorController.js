@@ -59,7 +59,6 @@ function editorController($scope, databaseService){
 
     $scope.run = function(){
     	// $scope.editorContent = editor.getSession().getValue();
-    	console.log($scope.connection)
     	if($scope.connection.path){
     		$scope.results = [];
     		var sql = $scope.editorContent;
@@ -83,7 +82,6 @@ function editorController($scope, databaseService){
 
 	function executeMore100(sqls){
 		sqls = chunk(sqls,100);
-		console.log(sqls);
 		for(i in sqls){
 			var sqlite = require("sqlite-cipher");
 			var list = sqls[i];
@@ -102,10 +100,7 @@ function editorController($scope, databaseService){
 		sql = sql.trim();
 		var type = sql.substring(0,6);
 		type = type.toUpperCase();
-		console.log(sql)
-		console.log(type)
 		sqlite.run(sql, function(res){
-			console.log(res)
 			if(res.error){
 				$scope.results.push({type:"alert",class:"alert-danger",message:res.error.message+" - Line: "+line+" - "+sql});
 			}else{
@@ -130,10 +125,10 @@ function editorController($scope, databaseService){
 						$scope.results.push({type:"alert",class:"alert-success",message:"Line: "+line+" - Success!"});
 						break;
 				}
-				$scope.$emit("change");
 			}
 		});
 		sqlite.close();
+		$scope.$emit("change");
 	}
 
 	function fields(data){
@@ -184,7 +179,6 @@ function editorController($scope, databaseService){
 				sqlite.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm);
 				for(i in tables){
 					var fields = sqlite.run("PRAGMA table_info(?) ",[tables[i]]);
-					console.log(fields)
 					for(j in fields){
 						fields[j].table = tables[i];
 						$scope.fields.push(fields[j]);
@@ -199,13 +193,12 @@ function editorController($scope, databaseService){
 	}
 
 	$scope.test = function(){
-		console.log($scope.editorContent);
+		// console.log($scope.editorContent);
 	}
 
 
 	$scope.changeConnection = function(a){
 		$scope.connection = a
-		console.log($scope.connection)
 		$scope.langTools.addCompleter(completerTables);
 	}
 

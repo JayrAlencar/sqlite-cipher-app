@@ -135,6 +135,21 @@ app.controller("mainController", function($scope, $controller, databaseService){
 		$scope.getConnected();
 		databaseService.getDatabase(function(res){
 			$scope.databases = res;
+			for(var i in $scope.databases){
+
+				var base = $scope.databases[i];
+				if(base.connected){
+					console.log(base.path)
+					var sq = require('sqlite-cipher');
+					sq.connect(base.path, base.password, base.algorithm);
+					sq.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){
+						console.log(tables)
+						$scope.databases[i].tables = tables;
+						sq.close();
+					});
+				}
+				
+			}
 		});
 	}
 
