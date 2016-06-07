@@ -143,7 +143,6 @@ function editorController($scope, databaseService){
 
 	$scope.save = function(){
 		dialog.showSaveDialog(function (fileName) {
-			$scope.editorContent = editor.getSession().getValue();
 			var sql = $("<div>"+$scope.editorContent+"</div>").text();
 			fs.writeFile(fileName, sql, function(err){
 				dialog.showMessageBox({ message: "The file has been saved!",buttons: ["OK"],type :'info', title:"SQLite-cipher App" });
@@ -222,7 +221,7 @@ function editorController($scope, databaseService){
 				$scope.save();
 			});
 		}else{
-			globalShortcut.unregisterAll();
+			
 		}
 	})
 

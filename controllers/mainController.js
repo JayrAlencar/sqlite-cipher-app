@@ -1,5 +1,11 @@
 "use strict";
 app.controller("mainController", function($scope, $controller, databaseService){
+
+	const app  = require('electron');
+
+    var remote = app.remote; 
+    var dialog = remote.dialog; 
+    var globalShortcut = remote.globalShortcut;
 	var sqlite = require("sqlite-cipher");
 
 	// console.log($controller)
@@ -11,7 +17,7 @@ app.controller("mainController", function($scope, $controller, databaseService){
 	$scope.btnTest = "Test connection";
 
 	$scope.app = basel.config;
-	$scope.app.title += " - v0.0.22";
+	$scope.app.title += " - v0.0.24";
 	$scope.menus = basel.database.run("SELECT * FROM crud WHERE ativo = 1 AND show_menu = 1");
 
 	$scope.connection = {};
@@ -31,6 +37,7 @@ app.controller("mainController", function($scope, $controller, databaseService){
 	];
 
 	$scope.addTab = function(options){
+		globalShortcut.unregisterAll();
 		options.id = options.id || (new Date()).getTime();
 		if($scope.tabs.indexOf(options) < 0){
 			if(options.active){
@@ -52,6 +59,7 @@ app.controller("mainController", function($scope, $controller, databaseService){
 		for(i in $scope.tabs){
 			$scope.tabs[i].active = false;
 		}
+		globalShortcut.unregisterAll();
 		$scope.$broadcast('activeTab',{tab_id: data.id});
 		data.active = true;
 	}
