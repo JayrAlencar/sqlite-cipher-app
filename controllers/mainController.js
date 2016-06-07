@@ -45,12 +45,14 @@ app.controller("mainController", function($scope, $controller, databaseService){
 			}
 			$scope.tabs[$scope.tabs.indexOf(options)].active = true;
 		}
+		$scope.$broadcast('activeTab',{tab_id: options.id});
 	}
 
 	$scope.activeMe = function(data){
 		for(i in $scope.tabs){
 			$scope.tabs[i].active = false;
 		}
+		$scope.$broadcast('activeTab',{tab_id: data.id});
 		data.active = true;
 	}
 

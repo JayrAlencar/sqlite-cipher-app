@@ -210,6 +210,22 @@ function editorController($scope, databaseService){
 		$scope.langTools.addCompleter(completerTables);
 	}
 
+	$scope.$on('activeTab', function(ev, args){
+		$scope.tab_active = args.tab_id == $scope.tab_id;
+		if($scope.tab_active){
+			globalShortcut.register('F9', () => {
+				$scope.run();
+				$scope.$apply();
+			});
+
+			globalShortcut.register('CommandOrControl+S', () => {
+				$scope.save();
+			});
+		}else{
+			globalShortcut.unregisterAll();
+		}
+	})
+
 	globalShortcut.register('F9', () => {
 		$scope.run();
 		$scope.$apply();
@@ -255,6 +271,8 @@ function editorController($scope, databaseService){
 		}
 		return newArr;
 	}
+
+
 
 }
 
