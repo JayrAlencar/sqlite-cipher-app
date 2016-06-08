@@ -2,6 +2,8 @@
 <title>{{app.title}}</title>
 <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/angular-tabs.css">
+
+<link rel="stylesheet" type="text/css" href="plugins/font-awesome/css/font-awesome.min.css">
 <!-- ngProgress -->
  <link rel="stylesheet" type="text/css" href="node_modules/ngprogress/ngProgress.css">
 </head>
@@ -26,16 +28,16 @@
 								<a href=""><span class="glyphicon glyphicon-asterisk"></span> New</a></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="" ng-click="newConnection()"><span class="glyphicon glyphicon-off"></span> Connection</a>
+										<a href="" ng-click="newConnection()"><i class="fa fa-plug"></i> Connection</a>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
-										<a href="#"><span class="glyphicon glyphicon-hdd"></span> Database</a>
+										<a href="#"><i class="fa fa-database"></i> Database</a>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
 										<a href="" ng-click="newEditor()">
-											<span class="glyphicon glyphicon-file"></span> Editor
+											<i class="fa fa-file"></i> Editor
 										</a>
 									</li>
 								</ul>
@@ -45,7 +47,7 @@
 					</li>
 					<li>
 						<a href="" ng-click="newEditor()">
-							<span class="glyphicon glyphicon-file"></span> New Editor
+							<i class="fa fa-file"></i> New Editor
 						</a>
 					</li>
 				</ul>
@@ -64,7 +66,10 @@
 									{{database.alias}} 
 								</a>
 								<div class="pull-right">
-									<button ng-show="!database.connected" ng-click="connect(database)" class="btn btn-primary btn-xs">Connect</button>
+									<button ng-show="!database.connected" ng-click="connect(database)" data-toggle="tooltip" data-placement="right" title="Connect" class="btn btn-primary btn-xs"><i class="fa fa-plug"></i></button>
+									<button ng-show="!database.connected" ng-click="remove(database)" data-toggle="tooltip" data-placement="right" title="Remove" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+									<button ng-show="database.connected" ng-click="disconnect(database)" data-toggle="tooltip" data-placement="right" title="Disconnect" class="btn btn-default btn-xs"><i class="fa fa-remove"></i></button>
+									<button ng-show="database.connected" ng-click="refresh(database)" data-toggle="tooltip" data-placement="right" title="Refresh" class="btn btn-success btn-xs"><i class="fa fa-refresh"></i></button>
 								</div>
 							</h4>
 						</div>
@@ -144,7 +149,6 @@
 	</div>
 	<!-- jQuery -->
 	<script>window.$ = window.jQuery = require('jquery');</script>
-
 	<!-- load ace -->
 	<script src="node_modules/ace-builds/src-min/ace.js"></script>
 	<!-- load ace language tools -->

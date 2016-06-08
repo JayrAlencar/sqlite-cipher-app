@@ -17,7 +17,7 @@ app.controller("mainController", function($scope, $controller, databaseService){
 	$scope.btnTest = "Test connection";
 
 	$scope.app = basel.config;
-	$scope.app.title += " - v0.0.27";
+	$scope.app.title += " - v0.0.28";
 	$scope.menus = basel.database.run("SELECT * FROM crud WHERE ativo = 1 AND show_menu = 1");
 
 	$scope.connection = {};
@@ -165,6 +165,29 @@ app.controller("mainController", function($scope, $controller, databaseService){
 	$scope.connect = function(base){
 		databaseService.connect(base);
 		$scope.$broadcast('newConnection',[]);
+		var sq = require('sqlite-cipher');
+		sq.connect(base.path, base.password, base.algorithm);
+		sq.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){
+			base.tables = tables;
+			base.connected = true;
+			sq.close();
+		});
+	}
+
+	$scope.disconnect = function(data){
+		databaseService.disconnect(data);
+		$scope.$broadcast('newConnection',[]);
+		$scope.getDatabases();
+	}
+
+	$scope.remove = function(data){
+		if(confirm("Are you sure?")){
+			databaseService.remove(data);
+			$scope.getDatabases();
+		}
+	}
+
+	$scope.refresh = function(base){
 		var sq = require('sqlite-cipher');
 		sq.connect(base.path, base.password, base.algorithm);
 		sq.run("SELECT * FROM sqlite_master WHERE type = 'table' AND name <> 'sqlite_sequence'", function(tables){

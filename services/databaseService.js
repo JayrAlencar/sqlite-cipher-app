@@ -22,6 +22,14 @@ app.service('databaseService', function() {
 		basel.database.update('databases',{connected: 1},{id: data.id});
 	}
 
+	actions.disconnect = function(data){
+		basel.database.update('databases',{connected:0},{id:data.id})
+	}
+
+	actions.remove = function(data){
+		basel.database.update('databases',{active:0},{id:data.id})
+	}
+
 	actions.disconnectAll = function(){
 		var databases = [];
 		basel.database.update('databases',{connected: 0},{});
