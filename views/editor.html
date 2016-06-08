@@ -19,27 +19,38 @@
 	<div class="row mid">
 		<div class="col-md-12" style="height:100%">
 			<div class="editor">
-				<div ng-repeat="res in results">
-					<div class="alert {{res.class}}" ng-show="res.type == 'alert'">
-						{{res.message}}
+				<div class="editor_content">
+					<div ng-repeat="res in results">
+						<div class="alert {{res.class}}" ng-show="res.type == 'alert'">
+							{{res.message}}
+						</div>
+						<div ng-show="res.type == 'table'">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th ng-repeat="field in res.fields">
+											{{field}}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="row in res.rows">
+										<td ng-repeat="field in res.fields">
+											{{row[field]}}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
-					<div ng-show="res.type == 'table'">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th ng-repeat="field in res.fields">
-										{{field}}
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="row in res.rows">
-									<td ng-repeat="field in res.fields">
-										{{row[field]}}
-									</td>
-								</tr>
-							</tbody>
-						</table>
+				</div>
+				
+				<div class="statusbar">
+					<div class="row">
+						<div class="col-md-2" ng-show="show_counter">
+							Rows: {{counter}}
+						</div>
+						<div class="col-md-6"></div>
 					</div>
 				</div>
 			</div>

@@ -58,7 +58,6 @@ function editorController($scope, databaseService){
     $scope.winFocus = true;
 
     $scope.run = function(){
-    	// $scope.editorContent = editor.getSession().getValue();
     	if($scope.connection.path){
     		$scope.results = [];
     		var sql = $scope.editorContent;
@@ -94,6 +93,7 @@ function editorController($scope, databaseService){
 	}
 
 	function executing(sql, line){
+		$scope.show_counter = false;
 		line++;
 		var sqlite = require("sqlite-cipher");
 		sqlite.connect($scope.connection.path, $scope.connection.password, $scope.connection.algorithm);
@@ -117,6 +117,8 @@ function editorController($scope, databaseService){
 					case "SELECT":
 						if(res.length){
 							$scope.results.push({type:"table",rows:res, fields:fields(res)});
+							$scope.show_counter = true;
+							$scope.counter = res.length;
 						}else{
 							$scope.results.push({type:"alert",class:"alert-warning",message:"Line: "+line+" - No results found!"});
 						}
@@ -263,8 +265,6 @@ function editorController($scope, databaseService){
 		}
 		return newArr;
 	}
-
-
 
 }
 
