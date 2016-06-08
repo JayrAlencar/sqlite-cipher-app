@@ -23,6 +23,8 @@ function editorController($scope, ngProgressFactory, databaseService){
     	},
     	onLoad: function(editor, session, ace){
     		$scope.langTools = ace.require('ace/ext/language_tools');
+    		$scope.editor = editor;
+    		$scope.session = session;
     		session.on('change',function(){
     			$scope.editorContent = session.getValue();
     		});
@@ -64,19 +66,23 @@ function editorController($scope, ngProgressFactory, databaseService){
     	ngProgress.start();
     	if($scope.connection.path){
     		$scope.results = [];
-    		var sql = $scope.editorContent;
-    		sql = sql.replace(/(\r\n|\n|\r)/gm,""); //remove \n
-    		var sqls = sql.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)(?=(?:(?:[^']*'){2})*[^']*$)/gi); // split by ;
-    		for(var i in sqls){ 
-    			if(sqls[i] && sqls[i] != ''){
-    				executing(sqls[i],i);	
-    			}
+    		selectionRange = $scope.editor.getSelectionRange();
+    		var sql = $scope.session.getTextRange(selectionRange) || $scope.editorContent;
+    		if(sql){
+    			sql = sql.replace(/(\r\n|\n|\r)/gm,""); //remove \n
+	    		var sqls = sql.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)(?=(?:(?:[^']*'){2})*[^']*$)/gi); // split by ;
+	    		for(var i in sqls){ 
+	    			if(sqls[i] && sqls[i] != ''){
+	    				executing(sqls[i],i);	
+	    			}
+	    		}
     		}
     	}else{
     		dialog.showErrorBox("Error", "Please connect in a database");
     	}
     	ngProgress.complete();
     }
+
 
 	$scope.$on('newConnection', function(event, args) {
 		databaseService.getConnecteds(function(res){
@@ -212,6 +218,11 @@ function editorController($scope, ngProgressFactory, databaseService){
 	$scope.$on('activeTab', function(ev, args){
 		$scope.tab_active = args.tab_id == $scope.tab_id;
 		if($scope.tab_active){
+			globalShortcut.register('F5', () => {
+				$scope.run();
+				$scope.$apply();
+			});
+
 			globalShortcut.register('F9', () => {
 				$scope.run();
 				$scope.$apply();
@@ -225,10 +236,16 @@ function editorController($scope, ngProgressFactory, databaseService){
 		}
 	})
 
+	globalShortcut.register('F5', () => {
+		$scope.run();
+		$scope.$apply();
+	});
+
 	globalShortcut.register('F9', () => {
 		$scope.run();
 		$scope.$apply();
 	});
+
 
 	globalShortcut.register('CommandOrControl+S', () => {
 		$scope.save();
@@ -236,10 +253,15 @@ function editorController($scope, ngProgressFactory, databaseService){
 	
 
 	win.on("focus", function(){
-    	globalShortcut.register('F9', () => {
+    	globalShortcut.register('F5', () => {
 			$scope.run();
 			$scope.$apply();
 		});
+
+		globalShortcut.register('F9', () => {
+		$scope.run();
+		$scope.$apply();
+	});
 
 		globalShortcut.register('CommandOrControl+S', () => {
 			$scope.save();
