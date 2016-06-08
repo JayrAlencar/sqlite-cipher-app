@@ -1,6 +1,6 @@
 {
   "name": "sqlite-cipher-app",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "App to handler sqlite database ciphered",
   "main": "main.js",
   "scripts": {
@@ -13,17 +13,18 @@
     "build": "electron-packager . --all"
   },
   "devDependencies": {
-    "electron-prebuilt": "^1.2.0",
-    "electron-packager": "^6.0.0",
-    "basel-cli": "*",
-    "jquery": "^2.2.2",
+    "ace-angular": "latest",
+    "ace-builds": "latest",
     "angular": "^1.5.1",
     "angular-route": "^1.5.1",
     "angular-utils-pagination": "^0.11.0",
-    "sqlite-cipher": "*",
-    "ace-builds": "latest",
-    "ace-angular": "latest",
-    "ngprogress": "latest"
+    "basel-cli": "*",
+    "electron-packager": "^6.0.0",
+    "electron-prebuilt": "^1.2.0",
+    "jquery": "^2.2.2",
+    "json2xls": "^0.1.1",
+    "ngprogress": "latest",
+    "sqlite-cipher": "*"
   },
   "titel": "sqlite-cipher"
 }

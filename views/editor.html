@@ -47,10 +47,14 @@
 				
 				<div class="statusbar " >
 					<div class="row">
-						<div class="col-md-2" ng-show="show_counter">
+						<div class="col-md-6" ng-show="show_counter">
 							Rows: {{counter}}
 						</div>
-						<div class="col-md-6"></div>
+						<div class="col-md-6 text-right">
+							<div class="btn-group btn-group-xs pull-right" role="group" aria-label="">
+								<button ng-show="show_counter" ng-click="exportExcel()" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="right" title="Export Excel"><i class="fa fa-file-excel-o"></i></button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

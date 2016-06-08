@@ -1,5 +1,6 @@
 function editorController($scope, ngProgressFactory, databaseService){
 	$scope.id_editor = Math.floor(Math.random() * 100) + 1  ;
+	var json2xls = require('json2xls');
 
 	var ngProgress = ngProgressFactory.createInstance();
 	ngProgress.setColor('#2C418D');
@@ -271,6 +272,28 @@ function editorController($scope, ngProgressFactory, databaseService){
     win.on("blur", function(){
     	globalShortcut.unregisterAll();
     });
+
+    $scope.exportExcel = function(){
+    	var options = {
+    		filters:[
+    			{
+    				name:"Excel file (.xlsx | .xls)", 
+    				extensions: ['xlsx', 'xls']
+    			}
+    		]
+    	};
+    	dialog.showSaveDialog(options,function (fileName) {
+    		var data =  angular.toJson($scope.results[0].rows);
+    		var xls = json2xls(JSON.parse(data));
+			fs.writeFile(fileName, xls, 'binary', function(err){
+				if(err){
+					alert(err)
+				}else{
+					dialog.showMessageBox({ message: "The file has been saved!",buttons: ["OK"],type :'info', title:"SQLite-cipher App" });
+				}
+			});
+    	});
+    }
 
 	function getStatementTables(sql){
 		var re = /\b(?:from|into|update|join)\s+(\w+)/gi; 
