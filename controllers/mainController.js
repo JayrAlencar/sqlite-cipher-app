@@ -206,6 +206,18 @@ app.controller("mainController", function($scope, $controller, databaseService){
 		});
 	}
 
+	$scope.dropTable = function(base, table){
+		if(confirm("Are you sure?")){
+			var sq = require('sqlite-cipher');
+			sq.connect(base.path, base.password, base.algorithm);
+			sq.run("DROP TABLE '"+table+"'", function(r){
+				sq.close();
+				$scope.refresh(base);
+			});
+		}
+		
+	}
+
 	$scope.$on("change",function(e,a){
 		$scope.getDatabases();
 	})

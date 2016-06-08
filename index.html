@@ -75,9 +75,14 @@
 						</div>
 						<div id="collapse{{database.id}}" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
 							<div class="panel-body">
-								<ul class="list-group">
-  									<li ng-repeat="table in database.tables" class="list-group-item">{{table.name}}</li>
-  								</ul>
+								<table class="table">
+									<tr ng-repeat="table in database.tables">
+										<td>{{table.name}}</td>
+										<td>
+											<button class="btn btn-danger btn-xs" data-toggle="tooltip" ng-click="dropTable(database, table.name)" data-placement="right" title="DROP table {{table.name}}"><i class="fa fa-trash"></i></button>
+										</td>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
