@@ -2,6 +2,8 @@
 <title>{{app.title}}</title>
 <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/angular-tabs.css">
+<!-- ngProgress -->
+ <link rel="stylesheet" type="text/css" href="node_modules/ngprogress/ngProgress.css">
 </head>
 <body style="height:100%">
 	<!-- Menu  -->
@@ -53,7 +55,7 @@
 	<!-- Onde será carregada a view -->
 	<div class="container-fluid" ng-init="getDatabases()">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3" >
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					<div class="panel panel-default" ng-repeat="database in databases">
 						<div class="panel-heading" role="tab" id="headingOne">
@@ -157,6 +159,8 @@
 	<script src="node_modules/angular-utils-pagination/dirPagination.js"></script>
 	<!-- Ace -->
 	<script type="text/javascript" src="node_modules/ace-angular/ace-angular.js"></script>
+	<!-- ngProgress -->
+ 	<script type="text/javascript" src="node_modules/ngprogress/build/ngProgress.js"></script>
 
 	<!-- App -->
 	<script src="app/app.js"></script>

@@ -1,6 +1,6 @@
 "use strict";
 var basel = require('basel-cli');
-var app = angular.module('cdg',['angularUtils.directives.dirPagination', 'ace.angular']);
+var app = angular.module('cdg',['angularUtils.directives.dirPagination', 'ace.angular','ngProgress']);
 var sql_text = require('./uses/sql-text');
 
 app.directive('customOnChange', function() {
@@ -25,6 +25,3 @@ app.directive('myController', function() {
     }
 });
 
-function test($scope){
-  $scope.message = "Scope test"
-}

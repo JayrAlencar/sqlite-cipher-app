@@ -1,5 +1,8 @@
-function editorController($scope, databaseService){
+function editorController($scope, ngProgressFactory, databaseService){
 	$scope.id_editor = Math.floor(Math.random() * 100) + 1  ;
+
+	var ngProgress = ngProgressFactory.createInstance();
+	ngProgress.setColor('#2C418D');
 
 	$scope.langTools = ace.require("ace/ext/language_tools");
 
@@ -58,12 +61,13 @@ function editorController($scope, databaseService){
     $scope.winFocus = true;
 
     $scope.run = function(){
+    	ngProgress.start();
     	if($scope.connection.path){
     		$scope.results = [];
     		var sql = $scope.editorContent;
-    		sql = sql.replace(/(\r\n|\n|\r)/gm,"");
-    		var sqls = sql.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)(?=(?:(?:[^']*'){2})*[^']*$)/gi);
-    		for(var i in sqls){
+    		sql = sql.replace(/(\r\n|\n|\r)/gm,""); //remove \n
+    		var sqls = sql.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)(?=(?:(?:[^']*'){2})*[^']*$)/gi); // split by ;
+    		for(var i in sqls){ 
     			if(sqls[i] && sqls[i] != ''){
     				executing(sqls[i],i);	
     			}
@@ -71,6 +75,7 @@ function editorController($scope, databaseService){
     	}else{
     		dialog.showErrorBox("Error", "Please connect in a database");
     	}
+    	ngProgress.complete();
     }
 
 	$scope.$on('newConnection', function(event, args) {
