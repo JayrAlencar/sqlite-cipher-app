@@ -28,16 +28,3 @@ app.directive('myController', function() {
         }
     }
 });
-
-
-app.directive('resizable', function(){
-  return{
-    restrict: 'A',
-    link: function(scope, tElement, attrs){
-      console.log(tElement)
-      tElement.resizable();
-      tElement.addClass('ui-widget-content');
-    }
-  }
-})
-

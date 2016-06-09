@@ -75,6 +75,10 @@ app.controller("mainController", function($scope, $controller, databaseService){
 		$('#modalConnction').modal('show');
 	}
 
+	$scope.newDatabase = function(){
+		$('#modalDatabase').modal('show');
+	}
+
 	$scope.callFileInput = function(){
 		$("#file").click();
 	}

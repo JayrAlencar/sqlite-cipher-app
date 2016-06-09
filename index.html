@@ -32,7 +32,7 @@
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
-										<a href="#"><i class="fa fa-database"></i> Database</a>
+										<a href="" ng-click="newDatabase()"><i class="fa fa-database"></i> Database</a>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
@@ -47,7 +47,7 @@
 					</li>
 					<li>
 						<a href="" ng-click="newEditor()">
-							<i class="fa fa-file"></i> New Editor
+							<i class="fa fa-file"></i> New Editor 
 						</a>
 					</li>
 				</ul>
@@ -103,6 +103,7 @@
 			</div>
 		</div>
 
+		<!-- New Connection -->
 		<div class="modal fade" tabindex="-1" role="dialog" id="modalConnction">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -151,6 +152,56 @@
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 
+		<!-- New Database -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="modalDatabase" ng-controller="newDatabaseController">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">New Database</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<label>File:</label>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="" ng-model="new_db.path">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" ng-click="selectFile()">...</button>
+									</span>
+								</div><!-- /input-group -->
+								<input type="file" id="file" style="display:none"   custom-on-change="uploadFile" >
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Alias:</label>
+								<input type="text" class="form-control" ng-model="new_db.alias">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Algorithm</label>
+								<select class="form-control" ng-model="new_db.algorithm">
+									<option ng-repeat="algorithm in algorithms" value="{{algorithm}}">{{algorithm}}</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label>Password</label>
+								<input type="password" class="form-control" ng-model="connection.password">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-success" ng-disabled="!new_db.alias || !new_db.algorithm || ! new_db.alias" ng-click="saveConnect()">Save and connect</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
+
 	</div>
 	<!-- jQuery -->
 	<script>window.$ = window.jQuery = require('jquery');</script>
@@ -178,6 +229,7 @@
 	<script src="controllers/homeController.js"></script>
 	<script src="controllers/mainController.js"></script>
 	<script src="controllers/editorController.js"></script>
+	<script src="controllers/newDatabaseController.js"></script>
 
 	<!-- Services -->
 	<script type="text/javascript" src="services/databaseService.js"></script>
