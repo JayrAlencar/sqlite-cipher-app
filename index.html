@@ -43,7 +43,13 @@
 								</ul>
 							</li>
 							<li role="separator" class="divider"></li>
+
 						</ul>
+					</li>
+					<li>
+						<a href="" data-toggle="modal" data-target="#modalConvert">
+							<i class="fa fa-retweet"></i> Convert Database
+						</a>
 					</li>
 					<li>
 						<a href="" ng-click="newEditor()">
@@ -170,7 +176,6 @@
 										<button class="btn btn-default" type="button" ng-click="selectFile()">...</button>
 									</span>
 								</div><!-- /input-group -->
-								<input type="file" id="file" style="display:none"   custom-on-change="uploadFile" >
 							</div>
 						</div>
 						<div class="row">
@@ -188,7 +193,7 @@
 							</div>
 							<div class="col-md-6">
 								<label>Password</label>
-								<input type="password" class="form-control" ng-model="connection.password">
+								<input type="password" class="form-control" ng-model="new_db.password">
 							</div>
 						</div>
 					</div>
@@ -200,6 +205,68 @@
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 
+		<!-- Modal converter -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="modalConvert" ng-controller="convertController">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Convert File</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="btn-group" role="group" aria-label="...">
+									<button class="btn btn-primary" ng-click="type = 1" ng-class="{'active': type == 1}" >Encrypt</button>
+									<button class="btn btn-primary" ng-click="type = 2" ng-class="{'active': type == 2}" >Decrypt</button>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-md-12">
+								<label>Origin File:</label>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="" ng-model="convert.origin">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" ng-click="selectOrigin()">...</button>
+									</span>
+								</div><!-- /input-group -->
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-md-12">
+								<label>Output File:</label>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="" ng-model="convert.output">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" ng-click="selectOutput()">...</button>
+									</span>
+								</div><!-- /input-group -->
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Algorithm</label>
+								<select class="form-control" ng-model="convert.algorithm">
+									<option ng-repeat="algorithm in algorithms" value="{{algorithm}}">{{algorithm}}</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label>Password</label>
+								<input type="password" class="form-control" ng-model="convert.password">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+						<button type="button" class="btn btn-success" ng-click="startConvert()"><i class="fa fa-check"></i> Convert</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 
 	</div>
@@ -230,6 +297,7 @@
 	<script src="controllers/mainController.js"></script>
 	<script src="controllers/editorController.js"></script>
 	<script src="controllers/newDatabaseController.js"></script>
+	<script src="controllers/convertController.js"></script>
 
 	<!-- Services -->
 	<script type="text/javascript" src="services/databaseService.js"></script>
