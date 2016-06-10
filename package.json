@@ -1,16 +1,19 @@
 {
   "name": "sqlite-cipher-app",
-  "version": "0.0.34",
+  "version": "0.1.0",
   "description": "App to handler sqlite database ciphered",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "win32": "electron-packager . sqlite-cipher --platform=win32 --arch=ia32",
-    "win64": "electron-packager . sqlite-cipher --platform=win32 --arch=x64",
-    "linux32": "electron-packager . sqlite-cipher --platform=linux --arch=ia32",
-    "linux64": "electron-packager . sqlite-cipher --platform=linux --arch=x64",
-    "osx": "electron-packager . sqlite-cipher --platform=darwin --arch=x64",
-    "build": "electron-packager . --all"
+    "win32": "electron-packager . sqlite-cipher --platform=win32 --arch=ia32 --icon=img/icon.ico",
+    "win64": "electron-packager . sqlite-cipher --platform=win32 --arch=x64 --icon=img/icon.ico",
+    "linux32": "electron-packager . sqlite-cipher --platform=linux --arch=ia32 --icon=img/icon.ico",
+    "linux64": "electron-packager . sqlite-cipher --platform=linux --arch=x64 --icon=img/icon.ico",
+    "osx": "electron-packager . sqlite-cipher --platform=darwin --arch=x64 --icon=img/icon.ico",
+    "build": "electron-packager . --all --icon=img/icon.ico",
+    "postinstall": "install-app-deps",
+    "pack": "build / --win --x64",
+    "dist": "build"
   },
   "devDependencies": {
     "ace-angular": "latest",
@@ -26,5 +29,13 @@
     "ngprogress": "latest",
     "sqlite-cipher": "*"
   },
-  "titel": "sqlite-cipher"
+  "titel": "sqlite-cipher",
+  "build": {
+    "app-bundle-id": "sqlite-cipher",
+    "app-category-type": "database",
+    "win": {
+      "iconUrl": "img/icon.ico",
+      "path":"./"
+    }
+  }
 }

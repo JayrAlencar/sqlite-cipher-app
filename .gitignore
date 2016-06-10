@@ -34,3 +34,4 @@ node_modules
 
 # builds
 sqlite-cipher-win32-x64
+sqlite-cipher-win32-ia32
