@@ -70,6 +70,8 @@ function editorController($scope, ngProgressFactory, databaseService){
     		selectionRange = $scope.editor.getSelectionRange();
     		var sql = $scope.session.getTextRange(selectionRange) || $scope.editorContent;
     		if(sql){
+
+
     			sql = sql.replace(/(\r\n|\n|\r)/gm,""); //remove \n
 	    		var sqls = sql.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)(?=(?:(?:[^']*'){2})*[^']*$)/gi); // split by ;
 	    		for(var i in sqls){ 
@@ -112,6 +114,14 @@ function editorController($scope, ngProgressFactory, databaseService){
 		sql = sql.trim();
 		var type = sql.substring(0,6);
 		type = type.toUpperCase();
+
+		var funcs = databaseService.getFunctionsAsync($scope.connection.id);
+
+		for(i in funcs){
+			eval(funcs[i].function)
+			sqlite.create_function(eval(funcs[i].name))
+		}
+
 		sqlite.run(sql, function(res){
 			if(res.error){
 				$scope.results.push({type:"alert",class:"alert-danger",message:res.error.message+" - Line: "+line+" - "+sql});

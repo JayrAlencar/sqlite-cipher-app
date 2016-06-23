@@ -35,5 +35,37 @@ app.service('databaseService', function() {
 		basel.database.update('databases',{connected: 0},{});
 	}
 
+	actions.getFunctions = function(id, callback){
+		basel.database.run("SELECT * FROM functions WHERE active = 1 AND id_database = ?",[id], function(res){
+			callback(res)
+		});
+	}
+
+	actions.getFunctionsAsync = function(id){
+		return basel.database.run("SELECT * FROM functions WHERE active = 1 AND id_database = ?",[id]);
+	}
+
+	actions.addFunction = function(data, callback){
+		basel.database.insert('functions', data, function(res){
+			callback(res)
+		});
+	}
+
+	actions.editFunction = function(data, callback){
+		var json = JSON.parse(angular.toJson(data));
+		var id = json.id;
+		delete json.id;
+
+		basel.database.update('functions',json, {id: id}, function(d){
+			callback(d);
+		});
+	}
+
+	actions.deleteFunction = function(id, callback){
+		basel.database.update('functions',{active:0}, {id: id}, function(d){
+			callback(d);
+		});
+	}
+
 	return actions;
 });

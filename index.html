@@ -72,10 +72,12 @@
 									<i class="fa fa-database"></i> {{database.alias}} 
 								</a>
 								<div class="pull-right">
+
 									<button ng-show="!database.connected" ng-click="connect(database)" data-toggle="tooltip" data-placement="right" title="Connect" class="btn btn-primary btn-xs"><i class="fa fa-plug"></i></button>
 									<button ng-show="!database.connected" ng-click="remove(database)" data-toggle="tooltip" data-placement="right" title="Remove" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
 									<button ng-show="database.connected" ng-click="disconnect(database)" data-toggle="tooltip" data-placement="right" title="Disconnect" class="btn btn-default btn-xs"><i class="fa fa-remove"></i></button>
 									<button ng-show="database.connected" ng-click="refresh(database)" data-toggle="tooltip" data-placement="right" title="Refresh" class="btn btn-success btn-xs"><i class="fa fa-refresh"></i></button>
+									<button ng-click="functions(database)" data-toggle="tooltip" data-placement="right" title="Functions" class="btn btn-info btn-xs"><i class="fa fa-terminal"></i></button>
 								</div>
 							</h4>
 						</div>
@@ -270,6 +272,10 @@
 		</div><!-- /.modal -->
 
 
+		<!-- Functions -->
+		<ng-include src="'views/functions.html'" scope="" onload=""></ng-include>
+
+
 	</div>
 	<!-- jQuery -->
 	<script>window.$ = window.jQuery = require('jquery');</script>
@@ -299,6 +305,7 @@
 	<script src="controllers/editorController.js"></script>
 	<script src="controllers/newDatabaseController.js"></script>
 	<script src="controllers/convertController.js"></script>
+	<script src="controllers/functionsController.js"></script>
 
 	<!-- Services -->
 	<script type="text/javascript" src="services/databaseService.js"></script>
