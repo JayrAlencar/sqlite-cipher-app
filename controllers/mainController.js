@@ -17,7 +17,7 @@ app.controller("mainController", function($scope, $controller, databaseService){
 	$scope.btnTest = "Test connection";
 
 	$scope.app = basel.config;
-	$scope.app.title += " - v0.1.1";
+	$scope.app.title += " - v0.1.2";
 	$scope.menus = basel.database.run("SELECT * FROM crud WHERE ativo = 1 AND show_menu = 1");
 
 	$scope.connection = {};
@@ -220,6 +220,17 @@ app.controller("mainController", function($scope, $controller, databaseService){
 			});
 		}
 		
+	}
+
+	$scope.clearTable = function(base, table){
+		if(confirm("Are you sure?")){
+			var sq = require('sqlite-cipher');
+			sq.connect(base.path, base.password, base.algorithm);
+			sq.run("DELETE FROM "+table+";UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '"+table+"';VACUUM;", function(r){
+				sq.close();
+				$scope.refresh(base);
+			});
+		}
 	}
 
 	$scope.$on("change",function(e,a){

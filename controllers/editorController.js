@@ -138,6 +138,9 @@ function editorController($scope, ngProgressFactory, databaseService){
 					case "CREATE":
 						$scope.results.push({type:"alert",class:"alert-success",message:"Line: "+line+" - Success!"});
 						break;
+					default:
+						$scope.results.push({type:"alert",class:"alert-success",message:"Line: "+line+" - Success!"});
+						break;
 				}
 			}
 		});

@@ -85,6 +85,7 @@
 									<tr ng-repeat="table in database.tables">
 										<td>{{table.name}}</td>
 										<td>
+											<button class="btn btn-warning btn-xs" data-toggle="tooltip" ng-click="clearTable(database, table.name)" data-placement="right" title="TRUNCATE table {{table.name}}"><i class="fa fa-eraser"></i></button>
 											<button class="btn btn-danger btn-xs" data-toggle="tooltip" ng-click="dropTable(database, table.name)" data-placement="right" title="DROP table {{table.name}}"><i class="fa fa-trash"></i></button>
 										</td>
 									</tr>
