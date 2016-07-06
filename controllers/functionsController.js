@@ -40,7 +40,9 @@ app.controller('functionsController', function($scope,databaseService){
 
     	}else{
     		$scope.function.id_database = $scope.database.id;
+            console.log($scope.function)
     		databaseService.addFunction($scope.function, function(res){
+                console.log(res)
     			 $scope.getFunctions();
     		});
     	}
